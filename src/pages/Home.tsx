@@ -1,4 +1,9 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import {
+    useEffect,
+    useState,
+    type ChangeEvent,
+    type FormEvent,
+} from "react";
 
 import AboutSection from "../components/AboutSection";
 import SkillsSection from "../components/SkillsSection";
@@ -8,10 +13,8 @@ import ServicesSection from "../components/ServicesSection";
 import BlogsSection from "../components/BlogsSection";
 import TestimonialsSection from "../components/TestimonialsSection";
 
-
 import { submitContact } from "../services/contactService";
 import api from "../services/api";
-
 
 interface About {
     heading: string;
@@ -38,21 +41,39 @@ interface UserProfile {
 
 function Home() {
 
+    // ========================================
+    // ABOUT STATE
+    // ========================================
+
     const [about, setAbout] =
         useState<About | null>(null);
 
     useEffect(() => {
+
         const loadAbout = async () => {
+
             try {
-                const response = await api.get<About>("/about");
+
+                const response =
+                    await api.get<About>("/about");
+
                 setAbout(response.data);
+
             } catch (error) {
-                console.error("Unable to load About data:", error);
+
+                console.error(
+                    "Unable to load About data:",
+                    error
+                );
+
             }
+
         };
 
         loadAbout();
+
     }, []);
+
 
     // ========================================
     // USER PROFILE
@@ -62,33 +83,45 @@ function Home() {
         useState<UserProfile | null>(null);
 
     useEffect(() => {
+
         const loadUserProfile = async () => {
+
             try {
-                const response = await api.get<UserProfile>(
-                    "/user-profile"
-                );
+
+                const response =
+                    await api.get<UserProfile>(
+                        "/user-profile"
+                    );
+
                 setUserProfile(response.data);
+
             } catch (error) {
+
                 console.error(
                     "Unable to load User Profile:",
                     error
                 );
+
             }
+
         };
 
         loadUserProfile();
+
     }, []);
+
 
     // ========================================
     // CONTACT FORM STATE
     // ========================================
 
-    const [contactForm, setContactForm] = useState({
-        name: "",
-        email: "",
-         subject: "",
-        message: "",
-    });
+    const [contactForm, setContactForm] =
+        useState({
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+        });
 
     const [contactStatus, setContactStatus] =
         useState("");
@@ -102,15 +135,21 @@ function Home() {
     // ========================================
 
     const handleContactChange = (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        event: ChangeEvent<
+            HTMLInputElement | HTMLTextAreaElement
+        >
     ) => {
 
-        const { name, value } = event.target;
+        const {
+            name,
+            value,
+        } = event.target;
 
         setContactForm((previous) => ({
             ...previous,
             [name]: value,
         }));
+
     };
 
 
@@ -154,11 +193,13 @@ function Home() {
             setContactLoading(false);
 
         }
+
     };
 
 
     return (
         <div className="portfolio-site">
+
 
             {/* ========================================
                 NAVBAR
@@ -167,6 +208,8 @@ function Home() {
             <header className="site-header">
 
                 <div className="site-header-inner">
+
+                    {/* BRAND */}
 
                     <a
                         href="#home"
@@ -177,12 +220,10 @@ function Home() {
                             {userProfile?.name || "Portfolio"}
                         </span>
 
-                        <span className="brand-subtitle">
-                            {about?.shortDescription || "Portfolio"}
-                        </span>
-
                     </a>
 
+
+                    {/* NAVIGATION */}
 
                     <nav className="main-nav">
 
@@ -235,14 +276,24 @@ function Home() {
 
                     <div className="hero-grid">
 
-                        {/* LEFT */}
+
+                        {/* ==================================
+                            HERO LEFT
+                        ================================== */}
 
                         <div className="hero-left">
 
+
+                            {/* EYEBROW */}
+
                             <p className="hero-eyebrow">
+
                                 {about?.heroEyebrow || ""}
+
                             </p>
 
+
+                            {/* HERO TITLE */}
 
                             <h1 className="hero-title">
 
@@ -251,17 +302,23 @@ function Home() {
                                 <br />
 
                                 <span className="hero-title-muted">
+
                                     {about?.heroTitleLine2 || ""}
+
                                 </span>
 
                                 <br />
 
                                 <span className="hero-title-light">
+
                                     {about?.heroTitleLine3 || ""}
+
                                 </span>
 
                             </h1>
 
+
+                            {/* HERO DESCRIPTION */}
 
                             <p className="hero-description">
 
@@ -269,6 +326,8 @@ function Home() {
 
                             </p>
 
+
+                            {/* HERO BUTTONS */}
 
                             <div className="hero-actions">
 
@@ -292,11 +351,14 @@ function Home() {
                         </div>
 
 
-                        {/* RIGHT — HERO IMAGE */}
+                        {/* ==================================
+                            HERO RIGHT
+                        ================================== */}
 
                         <div className="hero-right">
 
                             {about?.heroImage ? (
+
                                 <div className="hero-image-frame">
 
                                     <img
@@ -309,10 +371,15 @@ function Home() {
                                     />
 
                                 </div>
+
                             ) : (
+
                                 <div className="hero-image-placeholder">
+
                                     Upload a Hero Image
+
                                 </div>
+
                             )}
 
                         </div>
@@ -431,6 +498,9 @@ function Home() {
 
                     <div className="contact-inner">
 
+
+                        {/* CONTACT HEADER */}
+
                         <p className="section-number">
                             04 / CONTACT
                         </p>
@@ -439,7 +509,9 @@ function Home() {
                         <h2>
 
                             Let's build
+
                             <br />
+
                             something useful.
 
                         </h2>
@@ -461,6 +533,7 @@ function Home() {
                             className="contact-form"
                             onSubmit={handleContactSubmit}
                         >
+
 
                             {/* NAME */}
 
@@ -550,7 +623,9 @@ function Home() {
                             {contactStatus && (
 
                                 <p className="contact-status">
+
                                     {contactStatus}
+
                                 </p>
 
                             )}
@@ -566,23 +641,30 @@ function Home() {
 
                                 {contactLoading
                                     ? "Sending..."
-                                    : "Send Message ↗"
-                                }
+                                    : "Send Message ↗"}
 
                             </button>
 
                         </form>
 
+
                         {/* EMAIL */}
 
                         {userProfile?.email && (
+
                             <a
                                 href={`mailto:${userProfile.email}`}
                                 className="contact-email"
                             >
+
                                 {userProfile.email}
-                                <span>↗</span>
+
+                                <span>
+                                    ↗
+                                </span>
+
                             </a>
+
                         )}
 
                     </div>
@@ -599,11 +681,18 @@ function Home() {
             <footer className="site-footer">
 
                 <span>
-                    © {new Date().getFullYear()} {userProfile?.name || "Portfolio"}
+
+                    © {new Date().getFullYear()}{" "}
+
+                    {userProfile?.name || "Portfolio"}
+
                 </span>
 
+
                 <span>
+
                     Built with React + Spring Boot
+
                 </span>
 
             </footer>
