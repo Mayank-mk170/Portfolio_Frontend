@@ -689,11 +689,7 @@ function Home() {
                 </span>
 
 
-                <span>
-
-                    Built with React + Spring Boot
-
-                </span>
+              
 
             </footer>
 
